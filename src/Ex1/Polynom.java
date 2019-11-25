@@ -166,27 +166,31 @@ public class Polynom implements Polynom_able{
 
 	@Override
 	public boolean equals(Object p1) {
-		Iterator<Monom> it = p1.iteretor();
-		Iterator<Monom> it2 = poly.iterator();
-		int count1 = 0;
-		int count2 = 0;
-		while(it.hasNext()) {
-			count1++;
-			it.next();
-		}
-		while(it2.hasNext()) {
-			count2++;
-			it2.next();
-		}
-		if(count1 == count2 ) {
-			while(it.hasNext() ) {
-				Monom m = it.next();
-				Monom m1 = it2.next();
-				if(!m1.equals(m)) return false;
+		if(p1 instanceof Polynom) {
+			Polynom p2 = (Polynom)p1;
+
+			Iterator<Monom> it = p2.iteretor();
+			Iterator<Monom> it2 = poly.iterator();
+			int count1 = 0;
+			int count2 = 0;
+			while(it.hasNext()) {
+				count1++;
+				it.next();
 			}
-			return true;
+			while(it2.hasNext()) {
+				count2++;
+				it2.next();
+			}
+			if(count1 == count2 ) {
+				while(it.hasNext() ) {
+					Monom m = it.next();
+					Monom m1 = it2.next();
+					if(!m1.equals(m)) return false;
+				}
+				return true;
+			}
 		}
-		else return false;
+		return false;
 	}
 
 	@Override

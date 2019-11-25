@@ -57,6 +57,7 @@ public class Monom implements function{
 		double ans=0;
 		double p = this.get_power();
 		ans = this.get_coefficient()*Math.pow(x, p);
+		if (ans == -0) ans =0;
 		return ans;
 	} 
 /** 
@@ -228,11 +229,15 @@ public class Monom implements function{
  * @return true if the monoms are equalse , else return false.
  */
 
-	public boolean equals(Monom m) {
-		if(this._coefficient == 0 && m._coefficient == 0) return true;
-		double differ = Math.abs((this._coefficient-m._coefficient));
-		if(differ > EPSILON|| this.get_power() != m._power) return false; 
+	public boolean equals(Object m) {
+		if(m instanceof Monom) {
+			Monom m1 = (Monom)m;
+		if(this._coefficient == 0 && m1._coefficient == 0) return true;
+		double differ = Math.abs((this._coefficient-m1._coefficient));
+		if(differ > EPSILON|| this.get_power() != m1._power) return false; 
 		return true;
+	}
+		return false;
 	}
 	//****************** Private Methods and Data *****************
 

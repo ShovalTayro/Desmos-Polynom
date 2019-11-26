@@ -97,6 +97,7 @@ public class Polynom implements Polynom_able{
 			if(p == monPower) { 
 				poly.get(i).add(m1);
 				add = true;
+				if(poly.get(i).get_coefficient() ==0 && poly.size() > 1) poly.remove(i);
 			}
 		}
 		if(!add) {
@@ -132,7 +133,7 @@ public class Polynom implements Polynom_able{
 			if(p == monPower) {
 				poly.get(i).substarct(m);
 				sub = true;
-				if(poly.get(i).get_coefficient() == 0) poly.remove(i);
+				if(poly.get(i).get_coefficient() == 0 && poly.size() > 0) poly.remove(i);
 			}
 		}
 		if(!sub) {
@@ -147,12 +148,17 @@ public class Polynom implements Polynom_able{
 		LinkedList<Monom> temp = new LinkedList<Monom>();
 		Polynom p = new Polynom();
 		Iterator<Monom> it = p1.iteretor();
+		
 		while (it.hasNext()) {
 			Monom m = it.next();
 			for (int i = 0; i < poly.size(); i++) {
 				Monom m1 = new Monom(m);
 				m1.multipy(poly.get(i));
-				if(m1.get_coefficient() == 0) i++;
+				if(m1.get_coefficient() == 0 && poly.size() >1) { 
+					//when we remove we don't want the index to move on because we changed poly size
+					poly.remove(i);
+					i=-1;
+				}
 				else {
 					temp.add(m1);
 				}
@@ -182,9 +188,11 @@ public class Polynom implements Polynom_able{
 				it2.next();
 			}
 			if(count1 == count2 ) {
-				while(it.hasNext() ) {
-					Monom m = it.next();
-					Monom m1 = it2.next();
+				Iterator<Monom> it3 = p2.iteretor();
+				Iterator<Monom> it4 = poly.iterator();
+				while(it3.hasNext() ) {
+					Monom m = it3.next();
+					Monom m1 = it4.next();
 					if(!m1.equals(m)) return false;
 				}
 				return true;
@@ -204,8 +212,8 @@ public class Polynom implements Polynom_able{
 
 	@Override
 	public double root(double x0, double x1, double eps) {
-		if(f(x0) <= eps) return x0;
-		if(f(x1) <= eps) return x1;
+		if(Math.abs(f(x0)) <= eps) return x0;
+		if(Math.abs(f(x1)) <= eps) return x1;
 
 		if(f(x0)*f(x1)> 0 ) {
 			throw new  RuntimeException("there is no root between this two x's that given");
@@ -242,7 +250,7 @@ public class Polynom implements Polynom_able{
 			LinkedList<Monom> newP = new LinkedList<Monom>();	
 			for (int i = 0; i < poly.size(); i++) {
 				Monom m = new Monom(poly.get(i).derivative());
-				if(m.get_coefficient() == 0) i++;
+				if(m.get_coefficient() == 0 && poly.size() > 1) i++;
 				else {
 					p.add(m);
 				}
@@ -283,9 +291,12 @@ public class Polynom implements Polynom_able{
 			if(poly.get(i).get_coefficient() > 0 && i >= 1) {
 				ans+= "+";
 			}
-			ans+= poly.get(i).toString();
+			if(poly.get(i).get_coefficient() != 0) {
+				ans+= poly.get(i).toString();
+			}
 		}
 		if(ans == "") return "0";
+		
 		else { 
 			return ans;
 		}

@@ -254,13 +254,13 @@ public class Monom implements function{
 	private int _power;
 	@Override
 	public function initFromString(String s) {
-		// TODO Auto-generated method stub
-		return null;
+		Monom ans = new Monom(s);
+		return ans;
 	}
 	@Override
 	public function copy() {
-		// TODO Auto-generated method stub
-		return null;
+		Monom m = new Monom(this.get_coefficient(), this.get_power());
+		return m;
 	}
 
 

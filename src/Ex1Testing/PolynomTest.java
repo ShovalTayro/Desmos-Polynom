@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import Ex1.Monom;
 import Ex1.Polynom;
 import Ex1.Polynom_able;
+import Ex1.function;
 
 class PolynomTest {
 
@@ -127,10 +128,6 @@ class PolynomTest {
 		}
 	}
 
-	@Test
-	void testEqualsObject() {
-		fail("Not yet implemented");
-	}
 
 	@Test
 	void testIsZero() {
@@ -176,8 +173,14 @@ class PolynomTest {
 
 	@Test
 	void testArea() {
-		fail("Not yet implemented");
+		String []polynoms = {"2x" , "3x^2" , "-3x^3","4.2x^5", "6"};
+		double[] expected = { 7.999995999987983 , 27.999987999859655 , -59.99995800005884 , 509.59948761355804 , 23.999999999806516};
+		for (int i = 0; i < polynoms.length; i++) {
+			Polynom p= new Polynom(polynoms[i]);
+			assertEquals(expected[i],p.area(-1, 3, 0.000001));
+		}
 	}
+
 
 	@Test
 	void testMultiplyMonom() {
@@ -207,163 +210,15 @@ class PolynomTest {
 		}
 	}
 
-
+	@Test
+	void testinitFromString() {
+		String [] Polynoms = {"-x^4-x^3-5x^2-2" , "13x^2+1.2x+23" , "0.5x^5-3x^2+2x-5"};
+		for (int i = 0; i <Polynoms.length; i++) {
+			function p = new Polynom();			
+			p=p.initFromString(Polynoms[i]);
+			Polynom expected = new Polynom(Polynoms[i]);
+			assertEquals(expected, p);
+		}
+	}
 }
-//public static void test1() {
-//	String[] bad_polynoms = {"-5-8k" ,"-x^6+t","x^2-@a0!", "0.x", ".h-23x3" ,"--x", "-" , "++2x", "5x^-3",  "2x^2.5", "2..5", "3x^3+2x^2+1.5xx", "3x^^2"};
-//	for(int i=0;i<bad_polynoms.length;i++) {
-//		Polynom p = new Polynom(bad_polynoms[i]);
-//		System.out.println(p.toString());
-//	}
-//
-//	String[] good_polynoms = {"2x^7+3x+6","-x^3-4x^1-0.5","x^2-6+x^4", "0.9x^2+0.6x+4", "-5x^6+4x^3-x^1-x" , "0.0043x^6"};
-//	for(int i=0;i<good_polynoms.length-1;i++) {
-//		Polynom p = new Polynom(good_polynoms[i]);
-//		Polynom p2 = new Polynom(good_polynoms[i+1]);
-//		System.out.println(i+ ") " + p.toString());
-//		System.out.println((i+1)+ ") " + p2.toString());
-//		p.add(p2);
-//		System.out.println("p+p2 = : " + p.toString());
-//		System.out.println(i+ ") " + p.toString());
-//		System.out.println((i+1)+ ") " + p2.toString());
-//		p.substract(p2);
-//		System.out.println("p-p2 = : " + p.toString());
-//
-//	}
-//	Monom m= new Monom ("2.5x^3");
-//	Polynom p = new Polynom ("-3x^3+5x^5+6");
-//	Polynom p2 = new Polynom ("-3.5x^2+2x^2+9");
-//	System.out.println("m : " + m.toString());
-//	System.out.println("p : " + p.toString());
-//	System.out.println("p2 : "+ p2.toString());
-//	p.add(m);
-//	p2.add(m);
-//	System.out.println( "m + p = :" +p.toString() );
-//	System.out.println( "m + p2 = :" +p2.toString() );
-//	Polynom pp = new Polynom("2x^4+9");
-//	p.substract(pp);
-//	System.out.println("p: " + p.toString());
-//	String[] monoms1 = {"2x^3"};
-//	for(int i=0;i<monoms1.length;i++) {
-//		Monom z = new Monom(monoms1[i]);
-//		p2.add(z);
-//	}
-//	Polynom p3 = new Polynom("2x^7-x^3+7x+6.5");
-//	Polynom p4 =  new Polynom("2x^7-x^3+7x+6.5");
-//	p3.substract(p4);
-//	System.out.println("p3: " + p3.toString());
-//	System.out.println("p4: " + p4.toString());
-//	System.out.println("p3-p4= " +  p3.toString());
-//}
-//
-//public static void test2() {
-//	Polynom p1 = new Polynom(), p2 =  new Polynom();
-//	String[] monoms1 = {"2", "-x","-3.2x^2","4","-1.5x^2"};
-//	String[] monoms2 = {"5", "1.7x","3.2x^2","-3","-1.5x^2"};
-//	for(int i=0;i<monoms1.length;i++) {
-//		Monom m = new Monom(monoms1[i]);
-//		p1.add(m);
-//	}
-//	System.out.println("p1: " + p1.toString());
-//
-//	for(int i=0;i<monoms2.length;i++) {
-//		Monom m = new Monom(monoms2[i]);
-//		p2.add(m);
-//	}
-//	System.out.println("p2: " + p2.toString());
-//
-//	Polynom p3 = new Polynom("3x^4+2x+1");
-//	Polynom p4 = new Polynom("-2x^3-2x-5");
-//	System.out.println("p3: "+p3.toString());
-//	System.out.println("p4: "+p4.toString());
-//	double arr[] = { 0 , 1, 3.5, 0.5 , -1,-2,-5,-1.5};
-//	for (int i = 0; i < arr.length; i++) {
-//		System.out.println("x=" + arr[i] + " :");
-//		System.out.println("p3 = " +p3.f(arr[i]));
-//		System.out.println("p4 = " +p4.f(arr[i]));
-//	}
-//
-//	String[] good_polynoms = {"2x^7+3x^2+6","-x^3-4x^1-0.5","x^2-6+x^4", "0.9x^2+0.6x", "-5x^6+4x^3-x^1-x" , "0.0043x^6" , "3x" , "5"};
-//	for(int i=0;i<good_polynoms.length;i++) {
-//		Polynom p = new Polynom(good_polynoms[i]);
-//		System.out.println(i+ ") " + p.toString());
-//		Polynom_able ans = p.derivative();
-//		System.out.println("f' = : " + ans.toString());
-//	}
-//
-//	String []polys = {"2x" , "3x^2" , "-3x^3","4.2x^5"};
-//	for (int i = 0; i < polys.length; i++) {
-//		Polynom p= new Polynom(polys[i]);
-//		System.out.println("The area of " + p.toString() + " at x=-1 to x=3 is " +p.area(-1, 3, 0.0001));
-//		System.out.println("The area of " + p.toString() + " at x=4 to x=5 is " +p.area(4, 5, 0.00005));
-//	}
-//}
-//
-//public static void test3() {
-//	String[] pol = {"2x^2+5x+6" , "7x^5-6-3x^2" , "0.5x" , "x^2", "0", "0x^5"};
-//	Polynom p = new Polynom("0");
-//	Polynom p1 = new Polynom("2x^5");
-//	Polynom p2 = new Polynom("-x^3");
-//	Polynom p3 = new Polynom("x^2+3x-1");
-//
-//	for (int i = 0; i < pol.length; i++) {
-//		Polynom temp = new Polynom(pol[i]);
-//		System.out.print("( " + temp.toString() +" ) * ( " + p.toString() + " ) = " );
-//		temp.multiply(p);
-//		System.out.println(temp.toString());
-//
-//		temp = new Polynom(pol[i]);
-//		System.out.print("( " + temp.toString() +" ) * ( " + p1.toString() + " ) = " );
-//		temp.multiply(p1);
-//		System.out.println(temp.toString());
-//
-//		temp = new Polynom(pol[i]);
-//		System.out.print("( " + temp.toString() +" ) * ( " + p2.toString() + " ) = " );
-//		temp.multiply(p2);
-//		System.out.println(temp.toString());
-//
-//		temp = new Polynom(pol[i]);
-//		System.out.print("( " + temp.toString() +" ) * ( " + p3.toString() + " ) = " );
-//		temp.multiply(p3);
-//		System.out.println(temp.toString());
-//
-//	}
-//	for (int i = 0; i < pol.length; i++) {
-//		Polynom m = new Polynom(pol[i]);
-//		System.out.println(i + ")" + m +" is zero? : " + m.isZero() );
-//	}
-//
-//}
-//
-//public static void test4() {
-//	//root
-//	String[] polynoms = {"x^3","-x^2+3" , "x+15","1.5x^2-6x+3", "-0.6x^2+12x", "-x^6+2x^3-x^1+12" , "0.0043x^6" , "3x" , "17" , "-x^4-2x-1" ,"-0.5x^8"};
-//	for (int i = 0; i < polynoms.length; i++) {
-//		Polynom p = new Polynom(polynoms[i]);
-//		System.out.println(i+ ") " + p.toString());
-//		System.out.println(p.root(-2, 1, 0.5));
-//	}
-//	//equals
-//	String[] eqpolynoms = {"x^3","1x^3" , "15","14.99999999", "-0.6x^2+12x", "-0.6x^2+11.9999999999x" , "x" , "1x" , "-0.5x^2-0.3x" , "-0.4999999x^2-0.3x"};
-//	for (int i = 0; i < eqpolynoms.length; i+=2) {
-//		Polynom p = new Polynom(eqpolynoms[i]);
-//		System.out.println(i+ ") " + p.toString());
-//		Polynom_able p2= new Polynom(eqpolynoms[i+1]);
-//		System.out.println(i+1 + ") " + p2.toString());
-//
-//		if(p.equals(p2)){
-//			System.out.println("true");
-//		}
-//	}
-//	String[] bPolynoms = {"x^3","-1x^3" , "15","-14.99999999", "-0.6x^2+12x", "-0.55x^2+11.9999999999x" , "x^3-x^2+x-15" , "1x^3-1x^2+x-13" , "-5x^2+0.3x^8" , "-5x^2+0.3x^7"};
-//	for (int i = 0; i < bPolynoms.length; i+=2) {
-//		Polynom p3 = new Polynom(bPolynoms[i]);
-//		System.out.println(i+ ") " + p3.toString());
-//		Polynom_able p4= new Polynom(bPolynoms[i+1]);
-//		System.out.println(i+1+ ") " + p4.toString());
-//
-//		if(!p3.equals(p4)){
-//			System.out.println("false");
-//		}
-//	}
-//}
+

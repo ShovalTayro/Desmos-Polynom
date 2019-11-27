@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 
 import Ex1.Monom;
+import Ex1.function;
 
 class MonomTest {
 
@@ -27,7 +28,23 @@ class MonomTest {
 			assertEquals(expected[i] , m);
 		}
 	}
-
+	@Test
+	void testinitFromString() {
+		String [] Monoms = {"x" , "-1.5x^2" , "0.03x^3" , "32x^8" , "-15.2"};
+		Monom m1 =  new Monom(1,1);
+		Monom m2 =  new Monom(-1.5,2);
+		Monom m3 =  new Monom(0.03,3);
+		Monom m4 =  new Monom(32,8);
+		Monom m5 =  new Monom(-15.2,0);
+		Monom[] expected = {m1, m2 , m3 , m4 , m5};
+		for (int i = 0; i <Monoms.length; i++) {
+	   function m = new Monom(0,0);			
+	   m=	m.initFromString(Monoms[i]);
+	    assertEquals(expected[i], m);
+}
+				
+	}
+	
 	@Test
 	void testBadMonoms() {
 		String[] bad_monoms = {"-",".5x^2","-x5","9m","@#", "0.x)", "23x3", "sdghxs", "-.54x", "0.x"};

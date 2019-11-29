@@ -15,8 +15,7 @@ public class Functions_GUI implements functions {
 
 	@Override
 	public boolean addAll(Collection<? extends function> arg0) {
-		// TODO Auto-generated method stub
-		return false;
+		return fun.containsAll(arg0);
 	}
 
 	@Override
@@ -32,8 +31,7 @@ public class Functions_GUI implements functions {
 
 	@Override
 	public boolean containsAll(Collection<?> arg0) {
-		// TODO Auto-generated method stub
-		return false;
+		return fun.containsAll(arg0);
 	}
 
 	@Override
@@ -55,14 +53,12 @@ public class Functions_GUI implements functions {
 
 	@Override
 	public boolean removeAll(Collection<?> arg0) {
-		// TODO Auto-generated method stub
-		return false;
+		return fun.removeAll(arg0);
 	}
 
 	@Override
 	public boolean retainAll(Collection<?> arg0) {
-		// TODO Auto-generated method stub
-		return false;
+		return fun.retainAll(arg0);
 	}
 
 	@Override
@@ -72,19 +68,19 @@ public class Functions_GUI implements functions {
 
 	@Override
 	public Object[] toArray() {
-		// TODO Auto-generated method stub
-		return null;
+		Object[] functions = fun.toArray();
+		return functions;
 	}
 
 	@Override
 	public <T> T[] toArray(T[] arg0) {
-		// TODO Auto-generated method stub
-		return null;
+		T[] functions = fun.toArray(arg0);
+		return functions;
 	}
 
 	@Override
 	public void initFromFile(String file) throws IOException {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub 
 
 	}
 

@@ -5,8 +5,6 @@ import java.util.LinkedList;
 import java.util.Iterator;
 import java.util.function.Predicate;
 import java.util.regex.*;
-
-
 import Ex1.Monom;
 /**
  * This class represents a Polynom with add, multiply functionality, it also should support the following:
@@ -109,9 +107,9 @@ public class Polynom implements Polynom_able{
 	@Override
 	public void substract(Polynom_able p1) {
 		Monom m = new Monom("-1");
-		p1.multiply(m);
-		System.out.println(p1.toString());
-		this.add(p1);
+		Polynom temp = new Polynom(p1.toString());
+		temp.multiply(m);
+		this.add(temp);
 
 		//option2
 
@@ -236,7 +234,7 @@ public class Polynom implements Polynom_able{
 		if(!poly.isEmpty()) {
 			Polynom newPoly = new Polynom(); 
 			for (int i = 0; i < poly.size(); i++) {
-				newPoly.add(poly.get(i));
+				newPoly.add(new Monom(poly.get(i)));
 			}
 			return newPoly;
 		}
@@ -264,11 +262,12 @@ public class Polynom implements Polynom_able{
 		if(x0 > x1) {
 			return 0;
 		}
-		double ans  = 0;
-		for(double i = x0; i< x1; i=i+eps) {
-
-			double y = 	f(i);
-			ans+= y*eps;
+		double ans=0;
+		for(double i = x0; i+eps < x1 ; i += eps) {
+			if(this.f(i) >= 0){
+				double y = f(i);
+				ans+=(y * eps);
+			}
 		}
 		return ans;
 	}

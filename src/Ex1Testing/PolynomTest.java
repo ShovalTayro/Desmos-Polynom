@@ -173,11 +173,12 @@ class PolynomTest {
 
 	@Test
 	void testArea() {
-		String []polynoms = {"2x" , "3x^2" , "-3x^3","4.2x^5", "6"};
-		double[] expected = { 7.999995999987983 , 27.999987999859655 , -59.99995800005884 , 509.59948761355804 , 23.999999999806516};
+		String []polynoms = {"3x^2-6x^3+9x-2","6x-5", "4x^6-5x^5+1"};
+		double[] expected = { 0 , 0 , 2.4052119455953886};
 		for (int i = 0; i < polynoms.length; i++) {
 			Polynom p= new Polynom(polynoms[i]);
-			assertEquals(expected[i],p.area(-1, 3, 0.000001));
+			double area = p.area(-1, 0, 0.0001);
+			assertEquals(expected[i], area);
 		}
 	}
 

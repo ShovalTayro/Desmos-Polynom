@@ -157,7 +157,7 @@ public class ComplexFunction implements complex_function {
 
 			//Error case
 		default:
-			return -1;
+			throw new RuntimeException("the operation that given is not ok");
 		}
 	}
 
@@ -167,20 +167,68 @@ public class ComplexFunction implements complex_function {
 			this.left= new Polynom(s);
 			this.right=null;
 			this.opera= Operation.None;
-			return this;
+			return this.left.initFromString(s);
 		}
 		else {
-			// there are '('
-			
+			int indexOpen = s.indexOf("(");
+			int indexC = s.lastIndexOf(",");
+			String op = s.substring(0, indexOpen-1);
+			Operation opera = findOp("op");
+			function fLeft = initFromString(s.substring(indexOpen+1,indexC));
+			function fRight = initFromString(s.substring(indexC+1,s.length()-1));
+			function ans = new ComplexFunction(fLeft,fRight, opera);
+			return ans;
 		}
-		return null;
+	}
+	
+	private Operation findOp(String op) {
+		switch(op){
+		case "plus":
+			return Operation.Plus;
+		case "div":
+			return Operation.Divid;
+		case "mul":
+			return Operation.Times;
+		case "max":
+			return Operation.Max;
+		case "min":
+			return Operation.Min;
+		case "comp":
+			return Operation.Comp;
+		default:
+			throw new RuntimeException("the operation that given is not ok");
+		}
 	}
 
 	@Override
 	public function copy() {
 		function ans = new ComplexFunction(this.left, this.right, this.opera);
 		return ans;
-
+	}
+	
+	public String toString() {
+		StringBuilder ans = new StringBuilder();
+		ans.append(opToString()+"("+this.left.toString()+" , "+this.right.toString()+")");
+		return ans.toString();
+	}
+	
+	public String opToString() {
+		switch(this.opera){
+		case Plus:
+			return "plus";
+		case Divid:
+			return "div";
+		case Times:
+			return "mul";
+		case Max:
+			return "max";
+		case Min:
+			return "min";
+		case Comp:
+			return "comp";
+		default:
+			return "error";
+		}
 	}
 
 }

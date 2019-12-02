@@ -43,7 +43,16 @@ public class Polynom implements Polynom_able{
 				Monom m = new Monom(temp);
 				temp = "";
 				temp+= s.charAt(index);
+				boolean flag = false;
+				for (int i = 0; i < poly.size(); i++) {
+					if(poly.get(i).get_power() == m.get_power()){
+						poly.get(i).add(m);
+						flag = true;
+					}
+				}
+				if(!flag) {
 				poly.addFirst(m);
+				}
 			}
 			else {
 				temp+= s.charAt(index);

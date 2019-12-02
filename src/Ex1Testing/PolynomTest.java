@@ -7,7 +7,7 @@ import Ex1.Polynom_able;
 import Ex1.function;
 
 class PolynomTest {
-
+	
 	@Test
 	void testBadPolynomString() {
 		String[] bad_Polynoms = {"-5-8k" ,"-x^6+t","x^2-@a0!", "0.x", ".h-23x3" ,"--x", "-" , "++2x", "5x^-3",  "2x^2.5", "2..5", "3x^3+2x^2+1.5xx", "3x^^2"};

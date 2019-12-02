@@ -2,6 +2,7 @@ package Ex1;
 
 public class ComplexFunction implements complex_function {
 
+	private static final long serialVersionUID = -3873847944388627634L;
 	function left;
 	function right;
 	Operation opera;
@@ -13,17 +14,29 @@ public class ComplexFunction implements complex_function {
 		this.opera = null;
 	}
 
-	public ComplexFunction(function left, function right, Operation opera){
+	public ComplexFunction(Operation opera, function left, function right){
 		this.left = left;
 		this.right = right;
 		this.opera = opera;
 
 	}
+	public ComplexFunction(String opera,function left, function right){
+		this.left = left;
+		this.right = right;
+		this.opera = this.findOp(opera);
+
+	}
+
+	public ComplexFunction(function p3) {
+		this.left = p3;
+		this.right = null;
+		this.opera = Operation.None;
+	}
 
 	@Override
 	public void plus(function f1) {
 		if(this.right!= null) {
-			ComplexFunction  cf = new ComplexFunction(this.left, this.right, this.opera);
+			ComplexFunction  cf = new ComplexFunction(this.opera, this.left, this.right);
 			this.left = cf;
 			this.right = f1;
 			this.opera= Operation.Plus;	
@@ -37,7 +50,7 @@ public class ComplexFunction implements complex_function {
 	@Override
 	public void mul(function f1) {
 		if(this.right!= null) {
-			ComplexFunction  cf = new ComplexFunction(this.left, this.right, this.opera);
+			ComplexFunction  cf = new ComplexFunction(this.opera,this.left, this.right);
 			this.left = cf;
 			this.right = f1;
 			this.opera= Operation.Times;	
@@ -52,7 +65,7 @@ public class ComplexFunction implements complex_function {
 	@Override
 	public void div(function f1) {
 		if(this.right!= null) {
-			ComplexFunction  cf = new ComplexFunction(this.left, this.right, this.opera);
+			ComplexFunction  cf = new ComplexFunction(this.opera,this.left, this.right);
 			this.left = cf;
 			this.right = f1;
 			this.opera= Operation.Divid;	
@@ -67,7 +80,7 @@ public class ComplexFunction implements complex_function {
 	@Override
 	public void max(function f1) {
 		if(this.right!= null) {
-			ComplexFunction  cf = new ComplexFunction(this.left, this.right, this.opera);
+			ComplexFunction  cf = new ComplexFunction(this.opera,this.left, this.right);
 			this.left = cf;
 			this.right = f1;
 			this.opera= Operation.Max;	
@@ -82,7 +95,7 @@ public class ComplexFunction implements complex_function {
 	@Override
 	public void min(function f1) {
 		if(this.right!= null) {
-			ComplexFunction  cf = new ComplexFunction(this.left, this.right, this.opera);
+			ComplexFunction  cf = new ComplexFunction(this.opera,this.left, this.right);
 			this.left = cf;
 			this.right = f1;
 			this.opera= Operation.Min;	
@@ -97,7 +110,7 @@ public class ComplexFunction implements complex_function {
 	@Override
 	public void comp(function f1) {
 		if(this.right!= null) {
-			ComplexFunction  cf = new ComplexFunction(this.left, this.right, this.opera);
+			ComplexFunction  cf = new ComplexFunction(this.opera,this.left, this.right);
 			this.left = cf;
 			this.right = f1;
 			this.opera= Operation.Comp;	
@@ -163,6 +176,8 @@ public class ComplexFunction implements complex_function {
 
 	@Override
 	public function initFromString(String s) {
+		s = s.toLowerCase();
+		s = s.replace("\\s", "");
 		if(s.indexOf("(")== -1 && s.indexOf(")")== -1) {
 			this.left= new Polynom(s);
 			this.right=null;
@@ -172,16 +187,31 @@ public class ComplexFunction implements complex_function {
 		else {
 			int indexOpen = s.indexOf("(");
 			int indexC = s.lastIndexOf(",");
-			String op = s.substring(0, indexOpen-1);
-			Operation opera = findOp("op");
+			if(isNOp(s.charAt(0))) {
+			String op = s.substring(0, indexOpen);
+			Operation opera = findOp(op);
 			function fLeft = initFromString(s.substring(indexOpen+1,indexC));
 			function fRight = initFromString(s.substring(indexC+1,s.length()-1));
-			function ans = new ComplexFunction(fLeft,fRight, opera);
+			function ans = new ComplexFunction(opera,fLeft,fRight);
 			return ans;
 		}
+			else {
+				indexC = s.indexOf(",");
+				function fLeft = initFromString(s.substring(0,indexC));
+				function fRight = initFromString(s.substring(indexC+1,s.length()-1));
+				function ans = new ComplexFunction(opera,fLeft,fRight);
+				return ans;
+			}
+			}
 	}
-	
+
+	private boolean isNOp(char a) {
+		if(a=='p'|| a=='d'|| a=='m'|| a=='c'|| a== 'n'|| a=='e')return true;
+		return false;
+	}
+
 	private Operation findOp(String op) {
+		op = op.toLowerCase();
 		switch(op){
 		case "plus":
 			return Operation.Plus;
@@ -195,6 +225,8 @@ public class ComplexFunction implements complex_function {
 			return Operation.Min;
 		case "comp":
 			return Operation.Comp;
+		case "none":
+			return Operation.None;
 		default:
 			throw new RuntimeException("the operation that given is not ok");
 		}
@@ -202,16 +234,16 @@ public class ComplexFunction implements complex_function {
 
 	@Override
 	public function copy() {
-		function ans = new ComplexFunction(this.left, this.right, this.opera);
+		ComplexFunction  ans = new ComplexFunction(this.opera,this.left, this.right);
 		return ans;
 	}
-	
+
 	public String toString() {
 		StringBuilder ans = new StringBuilder();
 		ans.append(opToString()+"("+this.left.toString()+" , "+this.right.toString()+")");
 		return ans.toString();
 	}
-	
+
 	public String opToString() {
 		switch(this.opera){
 		case Plus:
@@ -231,4 +263,9 @@ public class ComplexFunction implements complex_function {
 		}
 	}
 
+	public boolean equals(Object obj) {
+		// not implement yet;
+		return false;
+
+	}
 }

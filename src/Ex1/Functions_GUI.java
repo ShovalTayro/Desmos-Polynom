@@ -1,5 +1,6 @@
 package Ex1;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -17,6 +18,8 @@ import com.google.gson.Gson;
 
 public class Functions_GUI implements functions {
 	ArrayList<function> fun = new ArrayList<function>();
+	ArrayList<Color> myCol = new ArrayList<Color>();
+	public static Color[] Colors = {Color.blue, Color.cyan, Color.MAGENTA, Color.ORANGE, Color.red, Color.GREEN, Color.PINK};
 	@Override
 	public boolean add(function arg0) {
 		boolean ans = fun.add(arg0);
@@ -101,8 +104,9 @@ public class Functions_GUI implements functions {
 			sCurrentLine = br.readLine();
 			while (sCurrentLine != null) {
 				int f= sCurrentLine.indexOf("f");
-				String Color = sCurrentLine.substring(3,(f-2) );
-				//string color add to array list of colors//
+				String Color = sCurrentLine.substring(3,(f-2));
+				Color col = java.awt.Color.getColor(Color);
+				myCol.add(col);
 				String cf = sCurrentLine.substring(f+6);
 				function ourF= new ComplexFunction();
 				ourF = ourF.initFromString(cf);
@@ -133,8 +137,32 @@ public class Functions_GUI implements functions {
 
 	@Override
 	public void drawFunctions(int width, int height, Range rx, Range ry, int resolution) {
-		// TODO Auto-generated method stub
-
+		StdDraw.setCanvasSize(width, height);
+		StdDraw.setXscale(rx.get_min(), rx.get_max());
+		StdDraw.setYscale(ry.get_min(), ry.get_max());
+		int res = resolution;
+		int size = fun.size();
+		double[] x = new double[res+1];
+		double[][] yy = new double[size][res+1];
+		double x_step = (rx.get_max()-rx.get_min())/res;
+		double x0 = rx.get_min();
+		for (int i = 0; i <= res; i++) {
+			x[i] = x0;
+			for(int j = 0; j < size; j++) {
+				yy[j][i] = fun.get(j).f(x[i]);
+			}
+			x0+=x_step;
+		}
+				
+		for(int j = 0; j < size ;j++) {
+			int colors = j%Colors.length;
+			StdDraw.setPenColor(Colors[colors]);
+		
+			System.out.println(j+") "+Colors[j]+"  f(x)= "+fun.get(j));
+			for (int i = 0; i < res; i++) {
+				StdDraw.line(x[i], yy[j][i], x[i+1], yy[j][i+1]);
+			}
+		}	
 	}
 
 	@Override

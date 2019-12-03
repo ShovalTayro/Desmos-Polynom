@@ -177,7 +177,7 @@ public class ComplexFunction implements complex_function {
 	@Override
 	public function initFromString(String s) {
 		s = s.toLowerCase();
-		s = s.replace("\\s", "");
+		s = s.replaceAll("\\s+", "");
 		if(s.indexOf("(")== -1 && s.indexOf(")")== -1) {
 			this.left= new Polynom(s);
 			this.right=null;
@@ -186,8 +186,7 @@ public class ComplexFunction implements complex_function {
 		}
 		else {
 			int indexOpen = s.indexOf("(");
-			int indexC = s.lastIndexOf(",");
-			if(isNOp(s.charAt(0))) {
+			int indexC = indexCo(s, indexOpen);
 			String op = s.substring(0, indexOpen);
 			Operation opera = findOp(op);
 			function fLeft = initFromString(s.substring(indexOpen+1,indexC));
@@ -195,19 +194,22 @@ public class ComplexFunction implements complex_function {
 			function ans = new ComplexFunction(opera,fLeft,fRight);
 			return ans;
 		}
-			else {
-				indexC = s.indexOf(",");
-				function fLeft = initFromString(s.substring(0,indexC));
-				function fRight = initFromString(s.substring(indexC+1,s.length()-1));
-				function ans = new ComplexFunction(opera,fLeft,fRight);
-				return ans;
-			}
-			}
 	}
 
-	private boolean isNOp(char a) {
-		if(a=='p'|| a=='d'|| a=='m'|| a=='c'|| a== 'n'|| a=='e')return true;
-		return false;
+	public int indexCo(String s,int indexOpen){
+		int countC=0;
+		int countO=1;
+		int index=indexOpen+1;
+		while(index < s.length() && countO != countC){
+			if(s.charAt(index) == '('){
+				countO++;
+			}
+			if(s.charAt(index) == ','){
+				countC++;
+			}
+			index++;
+		}
+		return index-1;
 	}
 
 	private Operation findOp(String op) {

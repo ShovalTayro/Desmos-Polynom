@@ -2,7 +2,6 @@ package Ex1;
 
 public class ComplexFunction implements complex_function {
 
-	private static final long serialVersionUID = -3873847944388627634L;
 	function left;
 	function right;
 	Operation opera;
@@ -154,7 +153,7 @@ public class ComplexFunction implements complex_function {
 			}
 
 		case Min:
-			if (this.right.f(x) > this.left.f(x)) return this.right.f(x);
+			if (this.right.f(x) > this.left.f(x)) return this.left.f(x);
 			else {
 				return this.right.f(x);
 			}

@@ -2,6 +2,8 @@ package Ex1Testing;
 
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
+
 import org.junit.internal.runners.statements.Fail;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +34,8 @@ class Functions_GUITest {
 		int w=1000, h=600, res=200;
 		Range rx = new Range(-10,10);
 		Range ry = new Range(-5,15);
-		data.drawFunctions(w,h,rx,ry,res);
+	data.drawFunctions(w,h,rx,ry,res);
+	//	data.drawFunctions("test.txt");
 	}
 	private Functions_GUI _data=null;
 	@BeforeAll
@@ -66,11 +69,16 @@ class Functions_GUITest {
 		fail("Not yet implemented");
 	}
 
-	@Test
-	void testDrawFunctions() {
-		//_data.drawFunctions();
-		fail("Not yet implemented");
-	}
+//	@Test
+//	void testdrawFunctions() {
+//		Range x = new Range(-10, 10);
+//		Range y = new Range(-15, 5);
+//		function f1 = new Polynom("-1.0x^4+2.4x^2+3.1");
+//		function f2 = new Polynom("+0.1x^5-1.2999999999999998x+5.0");
+//		ComplexFunction cf = new ComplexFunction("plus", f1, f2);
+//		//_data.drawFunctions();
+//		data.drawFunctions(1000, 600, x, y, 200);
+//		}
 
 	@Test
 	void testDrawFunctionsIntIntRangeRangeInt() {

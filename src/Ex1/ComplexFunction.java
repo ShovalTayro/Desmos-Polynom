@@ -1,7 +1,7 @@
 package Ex1;
 
 public class ComplexFunction implements complex_function {
-
+	public static final double EPSILON = 0.0000001;
 	function left;
 	function right;
 	Operation opera;
@@ -265,8 +265,27 @@ public class ComplexFunction implements complex_function {
 	}
 
 	public boolean equals(Object obj) {
-		// not implement yet;
-		return false;
+		if(obj instanceof ComplexFunction)
+		{
+			ComplexFunction fun = (ComplexFunction) obj;
+			for(double i = -10; i<10;i=i +Math.random()) {
+				if (Math.abs((this.f(i)-fun.f(i)))>EPSILON) return false;
 
+			}
+			return true;
+		}
+		else if(obj instanceof function) 
+		{
+			ComplexFunction fun = new ComplexFunction("none",(function)obj, null);
+			//ComplexFunction fun = (ComplexFunction) obj;
+			for(double i = -10; i<10;i=i +Math.random()) {
+				if (Math.abs((this.f(i)-fun.f(i)))>EPSILON) return false;
+
+			}
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }

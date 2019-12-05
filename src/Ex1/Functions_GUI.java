@@ -1,6 +1,7 @@
 package Ex1;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,6 +15,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import javax.annotation.processing.FilerException;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -161,38 +163,42 @@ public class Functions_GUI implements functions {
 		for (double i = ry.get_min(); i <= Math.abs(ry.get_max())+Math.abs(ry.get_min()); i++) {
 			StdDraw.line(rx.get_min(), ry.get_min()+i ,rx.get_max(), ry.get_min()+i);
 		}
-		
-		StdDraw.setPenColor(Color.black);
-		//draw Yscale
-		StdDraw.line(0, ry.get_min(), 0, ry.get_max());
+
 		//draw Xscale
+		StdDraw.setPenColor(Color.BLACK);
+		StdDraw.setPenRadius(0.005);
 		StdDraw.line(rx.get_min(), 0, rx.get_max(), 0);
-
-//		for (int i = 0; i <= res; i++) {
-//			x[i] = x0;
-//			for(int j = 0; j < size; j++) {
-//				yy[j][i] = fun.get(j).f(x[i]);
-//			}
-//			x0+=x_step;
-//		}
-
-//		for(int j = 1; j < 2 ;j++) {
-//			int colors = j%Colors.length;
-//			StdDraw.setPenColor(Colors[colors]);
-//
-//			System.out.println(j+") "+Colors[j]+"  f(x)= "+fun.get(j));
-//			for (int i = 0; i < res; i++) {
-//				StdDraw.line(x[i], yy[j][i], x[i+1], yy[j][i+1]);
-//			}
-//		}	
-//	}
-		function fu  = fun.get(1);
-			for (double i = rx.get_min(); i <= rx.get_max(); i+=x_step) {
-				StdDraw.line(i,fu.f(i),i+x_step,fu.f(i+x_step));
+		StdDraw.setFont(new Font("TimesRoman", Font.BOLD, 15));
+		for (double i = rx.get_min(); i <= rx.get_max(); i++) {
+			if(i!= 0) {
+				StdDraw.text(i, 0 , Double.toString(i));
 			}
 		}
-		
-	
+
+		//draw Yscale
+		StdDraw.line(0, ry.get_min(), 0, ry.get_max());
+		for (double i = ry.get_min(); i <= ry.get_max(); i++) {
+			StdDraw.text(x[res/2]-0.07, i+0.07, Double.toString(i));
+		}
+
+		for (int i = 0; i <= res; i++) {
+			x[i] = x0;
+			for(int j = 0; j < size; j++) {
+				yy[j][i] = fun.get(j).f(x[i]);
+			}
+			x0+=x_step;
+		}
+
+		for(int j = 0; j < size ;j++) {
+			int colors = j%Colors.length;
+			StdDraw.setPenColor(Colors[colors]);
+
+			System.out.println(j+") "+Colors[colors]+"  f(x)= "+fun.get(j));
+			for (int i = 0; i < res; i++) {
+				StdDraw.line(x[i], yy[j][i], x[i+1], yy[j][i+1]);
+			}
+		}	
+	}
 
 	@Override
 	public void drawFunctions(String json_file) {
@@ -202,13 +208,19 @@ public class Functions_GUI implements functions {
 
 			Object obj = parser.parse(new FileReader(json_file));
 			JSONObject jsonObject = (JSONObject) obj;
-			int width = (int) jsonObject.get("Width");
-			int height = (int) jsonObject.get("Height");
-			Range rx = (Range)jsonObject.get("Range_X");
-			Range ry = (Range)jsonObject.get("Range_Y");
-			int resolution = (int) jsonObject.get("Resolution");
-			drawFunctions(width, height, rx, ry, resolution);
-			
+			long width = (long) jsonObject.get("Width");
+			long height = (long) jsonObject.get("Height");
+			JSONArray Jrx = (JSONArray) jsonObject.get("Range_X");
+			JSONArray Jry = (JSONArray) jsonObject.get("Range_Y");
+			String minX = Jrx.get(0).toString();
+			String maxX = Jrx.get(1).toString();
+			String minY = Jry.get(0).toString();
+			String maxY = Jry.get(1).toString();
+			Range rx = new Range(Integer.parseInt(minX), Integer.parseInt(maxX));
+			Range ry = new Range(Integer.parseInt(minY), Integer.parseInt(maxY));
+			long resolution = (long) jsonObject.get("Resolution");
+			drawFunctions((int)width, (int)height, rx, ry, (int) resolution);
+
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -216,6 +228,3 @@ public class Functions_GUI implements functions {
 	}
 
 }
-
-
-

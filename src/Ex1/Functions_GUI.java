@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,19 +11,12 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import javax.annotation.processing.FilerException;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import com.google.gson.Gson;
-
 
 public class Functions_GUI implements functions {
 	ArrayList<function> fun = new ArrayList<function>();
-	ArrayList<Color> myCol = new ArrayList<Color>();
 	public static Color[] Colors = {Color.blue, Color.cyan, Color.MAGENTA, Color.ORANGE, Color.red, Color.GREEN, Color.PINK};
 	@Override
 	public boolean add(function arg0) {
@@ -110,10 +101,16 @@ public class Functions_GUI implements functions {
 			br = new BufferedReader(new FileReader(file));
 			sCurrentLine = br.readLine();
 			while (sCurrentLine != null) {
+//				int x = sCurrentLine.indexOf("[");
+//				int y = sCurrentLine.indexOf("]");
 				int f= sCurrentLine.indexOf("f");
-				String Color = sCurrentLine.substring(3,(f-2));
-				Color col = java.awt.Color.getColor(Color);
-				myCol.add(col);
+//				String color = sCurrentLine.substring(x+1,y);
+//				float r =  Float.parseFloat(color.substring(2, color.indexOf(",")));
+//				float g =  Float.parseFloat(color.substring(color.indexOf(",")+3, color.lastIndexOf(",")));
+//				float b =  Float.parseFloat(color.substring(color.lastIndexOf(",")+3));
+//				Color col = null;
+//				col = col.getHSBColor(r, g, b);
+//				myCol.add(col);
 				String cf = sCurrentLine.substring(f+6);
 				function ourF= new ComplexFunction();
 				ourF = ourF.initFromString(cf);
@@ -133,10 +130,20 @@ public class Functions_GUI implements functions {
 
 	@Override
 	public void saveToFile(String file) throws IOException {
-		try (FileWriter fileWriter = new FileWriter("outFile.txt");
-				BufferedWriter bufW = new BufferedWriter(fileWriter)) {
-			bufW.write(file);
-		} 
+		try {
+			PrintWriter myWrite = new PrintWriter("ourFile.txt");
+			for (int j = 0; j < fun.size(); j++) {
+				myWrite.println(j + ") " + Colors[j%Colors.length] + "  f(X)= " + fun.get(j).toString());
+				myWrite.flush();
+			}
+			myWrite.close();
+
+			//			FileWriter fileWriter = new FileWriter("outFile.txt");
+			//			BufferedWriter bufW = new BufferedWriter(fileWriter) ;
+			//			for (int i = 0; i < fun.size(); i++) {
+			//			bufW.write(fun.get(i).toString());
+			//		}
+		}
 		catch (IOException e) {
 			System.err.format("IOException: " + e);
 		}

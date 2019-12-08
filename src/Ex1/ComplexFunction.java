@@ -195,7 +195,7 @@ public class ComplexFunction implements complex_function {
 		}
 	}
 
-	public int indexCo(String s,int indexOpen){
+	private int indexCo(String s,int indexOpen){
 		int countC=0;
 		int countO=1;
 		int index=indexOpen+1;
@@ -245,7 +245,7 @@ public class ComplexFunction implements complex_function {
 		return ans.toString();
 	}
 
-	public String opToString() {
+	private String opToString() {
 		switch(this.opera){
 		case Plus:
 			return "plus";

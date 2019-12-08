@@ -3,9 +3,6 @@ package Ex1Testing;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.util.ArrayList;
-
-import org.junit.internal.runners.statements.Fail;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,14 +27,14 @@ import Ex1.function;
  *
  */
 class Functions_GUITest {
-//	public static void main(String[] a) {
-//		Functions_GUI data = FunctionsFactory();
-//		int w=1000, h=600, res=500;
-//		Range rx = new Range(-10,10);
-//		Range ry = new Range(-5,15);
-//	data.drawFunctions(w,h,rx,ry,res);
-////		data.drawFunctions("test.txt");
-//	}
+	public static void main(String[] a) {
+		Functions_GUI data = FunctionsFactory();
+		int w=1000, h=600, res=500;
+		Range rx = new Range(-10,10);
+		Range ry = new Range(-5,15);
+		data.drawFunctions(w,h,rx,ry,res);
+		//	data.drawFunctions("test.txt");
+	}
 	private Functions_GUI _data=null;
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -67,33 +64,101 @@ class Functions_GUITest {
 
 	@Test
 	void testSaveToFile() {
-		fail("Not yet implemented");
+		try {
+			_data.saveToFile("our.txt");
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 	@Test
 	void testequals() {
-		ComplexFunction cf = new ComplexFunction(new Polynom("x^2"));
 		Monom m = new Monom("x^2");
-		ComplexFunction cf1 = new ComplexFunction("mul", new Polynom("x"), new Polynom("x"));
-		assertEquals(true, cf.equals(m));
+		ComplexFunction cf7 = new ComplexFunction("plus", new Polynom("x") , new Monom(1,0));
+		ComplexFunction cf8 = new ComplexFunction("div", new Polynom("x^2-1") , new Polynom("x-1"));
+		Polynom p = new Polynom("4x^5+6x-5.5");
+		Polynom p1 = new Polynom("5x^6-9+6x");
+		ComplexFunction cf2 = new ComplexFunction("mul", new Polynom("x"), new Polynom("x"));
+		ComplexFunction cf5 = new ComplexFunction("plus", new Polynom("4x^5+6x"), new Polynom("-5.5"));
+		ComplexFunction cf1 = new ComplexFunction(new Polynom("3x^2+3x"));
+		ComplexFunction cf3 = new ComplexFunction("plus", new Polynom("x"), cf2);
+		ComplexFunction cf4 = new ComplexFunction("mul", new Monom("3"), cf3);
+		ComplexFunction cf6 = new ComplexFunction("none", new Polynom("5x^6-9+6x"), cf2);
+		function[] functions= {m, p, p1, cf1, cf7};
+		function[] expected= {cf2, cf5, cf6, cf4, cf8};
+		for (int i = 0; i < expected.length; i++) {
+			assertEquals(true, expected[i].equals(functions[i]));
+		}
 	}
 
-//	@Test
-//	void testdrawFunctions() {
-//		Range x = new Range(-10, 10);
-//		Range y = new Range(-15, 5);
-//		function f1 = new Polynom("-1.0x^4+2.4x^2+3.1");
-//		function f2 = new Polynom("+0.1x^5-1.2999999999999998x+5.0");
-//		ComplexFunction cf = new ComplexFunction("plus", f1, f2);
-//		//_data.drawFunctions();
-//		data.drawFunctions(1000, 600, x, y, 200);
-//		}
+	@Test
+	void testF(){
+		double[][] ans = new double[3][8];
+		double[][] expected = {{-862.9, 2.0317460317460316, 1.5356825057839474, -561.9, -301 ,2.0317460317460316, -862.9, 25},
+				{8.1 ,  2.0416666666666665, 2.6129032258064515, 3.1, 5 , 8.1, 2.0416666666666665 ,0},
+				{-30.900000000000002,  1.3333333333333335,  0.5488454706927176, -56.300000000000004, 25.400000000000002 , 25.400000000000002,-56.300000000000004, 9}};
+
+		for (int i = 0; i < _data.size(); i++) {
+			ans[0][i] = _data.get(i).f(-5);
+			ans[1][i] = _data.get(i).f(0);
+			ans[2][i] = _data.get(i).f(3);
+
+		}	
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 8; j++) {
+				boolean flag = false;
+				if(expected[i][j] == ans[i][j]) flag = true;
+				assertEquals(true, flag);
+			}
+		}
+	}
+
+	@Test
+	void testCopy(){
+		ComplexFunction p1 = new ComplexFunction("div" , new Polynom("4.7x^2-1.0x+6.0"),new Polynom("x^2+1.5") );
+		function p2 = p1.copy();
+		if (!p1.equals(p2)) {
+			System.out.println("fail copy");
+		}
+		function p3 = new Polynom("x");
+		p2 = p3;
+		// check if p1 changes to or not
+		if ( p1.equals(p2)) {
+			System.out.println("fail deep copy");
+		}	}
 
 	@Test
 	void testDrawFunctionsIntIntRangeRangeInt() {
-		//_data.drawFunctions();
-		fail("Not yet implemented");
+		Functions_GUI data = FunctionsFactory();
+		int w=1000, h=600, res=500;
+		Range rx = new Range(-10,10);
+		Range ry = new Range(-5,15);
+		data.drawFunctions(w,h,rx,ry,res);
+
+		w=500;
+		h=400;
+		res=450;
+		rx = new Range(-5,5);
+		ry = new Range(-3, 6);
+		data.drawFunctions(w,h,rx,ry,res);
+		
+		w=600;
+		h=600;
+		res=250;
+		rx = new Range(0,20);
+		ry = new Range(0,20);
+		data.drawFunctions(w,h,rx,ry,res);
+		
+		
+		w=800;
+		h=700;
+		res=500;
+		rx = new Range(-20, 0);
+		ry = new Range(0, 20);
+		data.drawFunctions(w,h,rx,ry,res);
 	}
-	
+
 	public static Functions_GUI FunctionsFactory() {
 		Functions_GUI ans = new Functions_GUI();
 		String s1 = "3.1+2.4x^2-x^4";
@@ -114,7 +179,6 @@ class Functions_GUITest {
 		ans.add(cf4.copy());
 		cf.div(p1);
 		ans.add(cf.copy());
-		String s = cf.toString();
 		function cf5 = cf4.initFromString(s1);
 		function cf6 = cf4.initFromString(s2);
 		ans.add(cf5.copy());

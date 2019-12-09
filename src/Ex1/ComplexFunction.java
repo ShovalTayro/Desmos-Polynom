@@ -6,26 +6,28 @@ public class ComplexFunction implements complex_function {
 	function right;
 	Operation opera;
 
+	// default constructor
 	public ComplexFunction() {
-		// left side never null author orders
+		// left side never null -author orders
 		this.left = new Polynom("0");
 		this.right = null;
 		this.opera = null;
 	}
-
+	//constructor
 	public ComplexFunction(Operation opera, function left, function right){
 		this.left = left;
 		this.right = right;
 		this.opera = opera;
 
 	}
+	//constructor
 	public ComplexFunction(String opera,function left, function right){
 		this.left = left;
 		this.right = right;
 		this.opera = this.findOp(opera);
 
 	}
-
+	//constructor
 	public ComplexFunction(function p3) {
 		this.left = p3;
 		this.right = null;
@@ -58,7 +60,6 @@ public class ComplexFunction implements complex_function {
 			this.right= f1;
 			this.opera= Operation.Times;
 		}
-
 	}
 
 	@Override
@@ -73,7 +74,6 @@ public class ComplexFunction implements complex_function {
 			this.right= f1;
 			this.opera= Operation.Divid;
 		}
-
 	}
 
 	@Override
@@ -88,7 +88,6 @@ public class ComplexFunction implements complex_function {
 			this.right= f1;
 			this.opera= Operation.Max;
 		}
-
 	}
 
 	@Override
@@ -103,7 +102,6 @@ public class ComplexFunction implements complex_function {
 			this.right= f1;
 			this.opera= Operation.Min;
 		}
-
 	}
 
 	@Override
@@ -127,7 +125,7 @@ public class ComplexFunction implements complex_function {
 
 	@Override
 	public function right() {
-		if(this.right!= null)return this.right;
+		if(this.right!= null) return this.right;
 		else return null;
 	}
 
@@ -259,6 +257,8 @@ public class ComplexFunction implements complex_function {
 			return "min";
 		case Comp:
 			return "comp";
+		case None:
+			return "";
 		default:
 			return "error";
 		}
@@ -268,7 +268,7 @@ public class ComplexFunction implements complex_function {
 		if(obj instanceof ComplexFunction)
 		{
 			ComplexFunction fun = (ComplexFunction) obj;
-			for(double i = -10; i<10;i=i +Math.random()) {
+			for(double i = -10; i<10;i=i +0.1) {
 				if (Math.abs((this.f(i)-fun.f(i)))>EPSILON) return false;
 
 			}
@@ -277,10 +277,8 @@ public class ComplexFunction implements complex_function {
 		else if(obj instanceof function) 
 		{
 			ComplexFunction fun = new ComplexFunction("none",(function)obj, null);
-			//ComplexFunction fun = (ComplexFunction) obj;
-			for(double i = -10; i<10;i=i +Math.random()) {
+			for(double i = -10; i<10;i=i +0.1) {
 				if (Math.abs((this.f(i)-fun.f(i)))>EPSILON) return false;
-
 			}
 			return true;
 		}

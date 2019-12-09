@@ -1,9 +1,6 @@
 package Ex1Testing;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.ArrayList;
-
 import org.junit.jupiter.api.Test;
 
 import Ex1.Monom;

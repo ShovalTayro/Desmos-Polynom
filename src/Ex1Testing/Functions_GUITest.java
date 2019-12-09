@@ -1,8 +1,10 @@
 package Ex1Testing;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
+import java.util.Iterator;
+
+import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,8 +34,21 @@ class Functions_GUITest {
 		int w=1000, h=600, res=500;
 		Range rx = new Range(-10,10);
 		Range ry = new Range(-5,15);
-		data.drawFunctions(w,h,rx,ry,res);
-		//	data.drawFunctions("test.txt");
+			data.drawFunctions(w,h,rx,ry,res);
+			data.drawFunctions("test.txt");
+		String file = "function_file.txt";
+		String file2 = "function_file2.txt";
+		try {
+			data.saveToFile(file);
+			Functions_GUI data2 = new Functions_GUI();
+			data2.initFromFile(file);
+			data.saveToFile(file2);
+		}
+		catch(Exception e) {e.printStackTrace();}
+
+		String JSON_param_file = "GUI_params.txt";
+		data.drawFunctions(JSON_param_file);
+
 	}
 	private Functions_GUI _data=null;
 	@BeforeAll
@@ -43,11 +58,6 @@ class Functions_GUITest {
 	@BeforeEach
 	void setUp() throws Exception {
 		_data = FunctionsFactory();
-	}
-
-	@Test
-	void testFunctions_GUI() {
-		fail("Not yet implemented");
 	}
 
 	@Test
@@ -134,7 +144,7 @@ class Functions_GUITest {
 		int w=1000, h=600, res=500;
 		Range rx = new Range(-10,10);
 		Range ry = new Range(-5,15);
-		data.drawFunctions(w,h,rx,ry,res);
+	data.drawFunctions(w,h,rx,ry,res);
 
 		w=500;
 		h=400;
@@ -142,15 +152,15 @@ class Functions_GUITest {
 		rx = new Range(-5,5);
 		ry = new Range(-3, 6);
 		data.drawFunctions(w,h,rx,ry,res);
-		
+
 		w=600;
 		h=600;
 		res=250;
 		rx = new Range(0,20);
 		ry = new Range(0,20);
 		data.drawFunctions(w,h,rx,ry,res);
-		
-		
+
+
 		w=800;
 		h=700;
 		res=500;
@@ -183,16 +193,24 @@ class Functions_GUITest {
 		function cf6 = cf4.initFromString(s2);
 		ans.add(cf5.copy());
 		ans.add(cf6.copy());
-		ComplexFunction max = new ComplexFunction(ans.get(0).copy());
-		ComplexFunction min = new ComplexFunction(ans.get(0).copy());
 		ComplexFunction x2 = new ComplexFunction("mul", new Polynom("x") , new Polynom("x"));
-		for(int i=1;i<ans.size();i++) {
-			max.max(ans.get(i));
-			min.min(ans.get(i));
+		//ComplexFunction x3 = new ComplexFunction(new Polynom("x"));
+		//cf.toString();
+		//x3.toString();
+		Iterator<function> iter = ans.iterator();
+		function f = iter.next();
+		ComplexFunction max = new ComplexFunction(f);
+		ComplexFunction min = new ComplexFunction(f);
+		while(iter.hasNext()) {
+			f = iter.next();
+			max.max(f);
+			min.min(f);
 		}
+
 		ans.add(max);
 		ans.add(min);
 		ans.add(x2);
+		//ans.add(x3);
 		return ans;
 	}
 }

@@ -3,9 +3,7 @@ package Ex1;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -36,8 +34,7 @@ public class Functions_GUI implements functions {
 
 	@Override
 	public boolean contains(Object arg0) {
-		boolean ans = fun.contains(arg0);
-		return ans;
+		return (fun.contains(arg0));
 	}
 
 	@Override
@@ -47,8 +44,7 @@ public class Functions_GUI implements functions {
 
 	@Override
 	public boolean isEmpty() {
-		boolean ans = fun.isEmpty();
-		return ans;
+		return (fun.isEmpty());
 	}
 
 	@Override
@@ -58,8 +54,7 @@ public class Functions_GUI implements functions {
 
 	@Override
 	public boolean remove(Object arg0) {
-		boolean ans = fun.remove(arg0);
-		return ans;
+		return (fun.remove(arg0));
 	}
 
 	@Override
@@ -101,31 +96,24 @@ public class Functions_GUI implements functions {
 			br = new BufferedReader(new FileReader(file));
 			sCurrentLine = br.readLine();
 			while (sCurrentLine != null) {
-//				int x = sCurrentLine.indexOf("[");
-//				int y = sCurrentLine.indexOf("]");
+				sCurrentLine = sCurrentLine.replaceAll("\\s+","");
 				int f= sCurrentLine.indexOf("f");
-//				String color = sCurrentLine.substring(x+1,y);
-//				float r =  Float.parseFloat(color.substring(2, color.indexOf(",")));
-//				float g =  Float.parseFloat(color.substring(color.indexOf(",")+3, color.lastIndexOf(",")));
-//				float b =  Float.parseFloat(color.substring(color.lastIndexOf(",")+3));
-//				Color col = null;
-//				col = col.getHSBColor(r, g, b);
-//				myCol.add(col);
-				String cf = sCurrentLine.substring(f+6);
+				if(f==-1) {
+					br.close();
+					throw new RuntimeException("\"File I/O error!\"");
+				}
+				String cf = sCurrentLine.substring(f+5);
 				function ourF= new ComplexFunction();
 				ourF = ourF.initFromString(cf);
 				fun.add(ourF);
 				sCurrentLine = br.readLine();
-
 			}
 			br.close();
-
 		}
 		catch (IOException e)
 		{
 			System.out.println("File I/O error!");
 		}
-
 	}
 
 	@Override
@@ -137,12 +125,6 @@ public class Functions_GUI implements functions {
 				myWrite.flush();
 			}
 			myWrite.close();
-
-			//			FileWriter fileWriter = new FileWriter("outFile.txt");
-			//			BufferedWriter bufW = new BufferedWriter(fileWriter) ;
-			//			for (int i = 0; i < fun.size(); i++) {
-			//			bufW.write(fun.get(i).toString());
-			//		}
 		}
 		catch (IOException e) {
 			System.err.format("IOException: " + e);
@@ -187,7 +169,7 @@ public class Functions_GUI implements functions {
 		for (double i = ry.get_min(); i <= ry.get_max(); i++) {
 			StdDraw.text(x[res/2]-0.07, i+0.07, Double.toString(i));
 		}
-
+		//compute f(x) for every x 
 		for (int i = 0; i <= res; i++) {
 			x[i] = x0;
 			for(int j = 0; j < size; j++) {
@@ -195,11 +177,11 @@ public class Functions_GUI implements functions {
 			}
 			x0+=x_step;
 		}
-
+		//draw functions
+		StdDraw.setPenRadius(0.003);
 		for(int j = 0; j < size ;j++) {
 			int colors = j%Colors.length;
 			StdDraw.setPenColor(Colors[colors]);
-
 			System.out.println(j+") "+Colors[colors]+"  f(x)= "+fun.get(j));
 			for (int i = 0; i < res; i++) {
 				StdDraw.line(x[i], yy[j][i], x[i+1], yy[j][i+1]);

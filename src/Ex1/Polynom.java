@@ -1,10 +1,7 @@
 package Ex1;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Iterator;
-import java.util.function.Predicate;
-import java.util.regex.*;
 import Ex1.Monom;
 /**
  * This class represents a Polynom with add, multiply functionality, it also should support the following:

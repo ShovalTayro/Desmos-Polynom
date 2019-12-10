@@ -119,7 +119,7 @@ public class Functions_GUI implements functions {
 	@Override
 	public void saveToFile(String file) throws IOException {
 		try {
-			PrintWriter myWrite = new PrintWriter("ourFile.txt");
+			PrintWriter myWrite = new PrintWriter(file);
 			for (int j = 0; j < fun.size(); j++) {
 				myWrite.println(j + ") " + Colors[j%Colors.length] + "  f(X)= " + fun.get(j).toString());
 				myWrite.flush();

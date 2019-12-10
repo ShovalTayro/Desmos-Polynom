@@ -239,8 +239,15 @@ public class ComplexFunction implements complex_function {
 
 	public String toString() {
 		StringBuilder ans = new StringBuilder();
+		if(this.right != null) {
 		ans.append(opToString()+"("+this.left.toString()+" , "+this.right.toString()+")");
 		return ans.toString();
+		}
+		else {
+			
+			ans.append(this.left.toString());
+			return ans.toString();
+		}
 	}
 
 	private String opToString() {

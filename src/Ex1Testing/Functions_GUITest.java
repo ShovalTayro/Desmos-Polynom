@@ -31,7 +31,7 @@ import Ex1.function;
 class Functions_GUITest {
 	public static void main(String[] a) {
 		Functions_GUI data = FunctionsFactory();
-		int w=1000, h=600, res=500;
+		int w=1000, h=600, res=10;
 		Range rx = new Range(-10,10);
 		Range ry = new Range(-5,15);
 			data.drawFunctions(w,h,rx,ry,res);
@@ -104,10 +104,10 @@ class Functions_GUITest {
 
 	@Test
 	void testF(){
-		double[][] ans = new double[3][8];
-		double[][] expected = {{-862.9, 2.0317460317460316, 1.5356825057839474, -561.9, -301 ,2.0317460317460316, -862.9, 25},
-				{8.1 ,  2.0416666666666665, 2.6129032258064515, 3.1, 5 , 8.1, 2.0416666666666665 ,0},
-				{-30.900000000000002,  1.3333333333333335,  0.5488454706927176, -56.300000000000004, 25.400000000000002 , 25.400000000000002,-56.300000000000004, 9}};
+		double[][] ans = new double[3][9];
+		double[][] expected = {{-862.9, 2.0317460317460316, 1.5356825057839474, -561.9, -301 ,2.0317460317460316, -862.9, 25, -5},
+				{8.1 ,  2.0416666666666665, 2.6129032258064515, 3.1, 5 , 8.1, 2.0416666666666665 ,0, 0},
+				{-30.900000000000002,  1.3333333333333335,  0.5488454706927176, -56.300000000000004, 25.400000000000002 , 25.400000000000002,-56.300000000000004, 9, 3}};
 
 		for (int i = 0; i < _data.size(); i++) {
 			ans[0][i] = _data.get(i).f(-5);
@@ -115,8 +115,8 @@ class Functions_GUITest {
 			ans[2][i] = _data.get(i).f(3);
 
 		}	
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 8; j++) {
+		for (int i = 0; i < ans.length; i++) {
+			for (int j = 0; j < ans[0].length; j++) {
 				boolean flag = false;
 				if(expected[i][j] == ans[i][j]) flag = true;
 				assertEquals(true, flag);
@@ -194,7 +194,7 @@ class Functions_GUITest {
 		ans.add(cf5.copy());
 		ans.add(cf6.copy());
 		ComplexFunction x2 = new ComplexFunction("mul", new Polynom("x") , new Polynom("x"));
-		//ComplexFunction x3 = new ComplexFunction(new Polynom("x"));
+		ComplexFunction x3 = new ComplexFunction(new Polynom("x"));
 		//cf.toString();
 		//x3.toString();
 		Iterator<function> iter = ans.iterator();
@@ -210,7 +210,7 @@ class Functions_GUITest {
 		ans.add(max);
 		ans.add(min);
 		ans.add(x2);
-		//ans.add(x3);
+		ans.add(x3);
 		return ans;
 	}
 }

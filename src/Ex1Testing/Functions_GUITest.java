@@ -104,10 +104,10 @@ class Functions_GUITest {
 
 	@Test
 	void testF(){
-		double[][] ans = new double[3][9];
-		double[][] expected = {{-862.9, 2.0317460317460316, 1.5356825057839474, -561.9, -301 ,2.0317460317460316, -862.9, 25, -5},
-				{8.1 ,  2.0416666666666665, 2.6129032258064515, 3.1, 5 , 8.1, 2.0416666666666665 ,0, 0},
-				{-30.900000000000002,  1.3333333333333335,  0.5488454706927176, -56.300000000000004, 25.400000000000002 , 25.400000000000002,-56.300000000000004, 9, 3}};
+		double[][] ans = new double[3][10];
+		double[][] expected = {{-862.9, 2.0317460317460316, 1.5356825057839474, -561.9, -301 ,2.0317460317460316, -862.9, 25, -5, 4},
+				{8.1 ,  2.0416666666666665, 2.6129032258064515, 3.1, 5 , 8.1, 2.0416666666666665 ,0, 0, 9},
+				{-30.900000000000002,  1.3333333333333335,  0.5488454706927176, -56.300000000000004, 25.400000000000002 , 25.400000000000002,-56.300000000000004, 9, 3, 36}};
 
 		for (int i = 0; i < _data.size(); i++) {
 			ans[0][i] = _data.get(i).f(-5);
@@ -195,6 +195,7 @@ class Functions_GUITest {
 		ans.add(cf6.copy());
 		ComplexFunction x2 = new ComplexFunction("mul", new Polynom("x") , new Polynom("x"));
 		ComplexFunction x3 = new ComplexFunction(new Polynom("x"));
+		ComplexFunction x4 = new ComplexFunction("comp", new Polynom("x^2"), new Polynom("x+3"));
 		//cf.toString();
 		//x3.toString();
 		Iterator<function> iter = ans.iterator();
@@ -211,6 +212,7 @@ class Functions_GUITest {
 		ans.add(min);
 		ans.add(x2);
 		ans.add(x3);
+		ans.add(x4);
 		return ans;
 	}
 }

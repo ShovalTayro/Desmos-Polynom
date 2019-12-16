@@ -31,7 +31,7 @@ import Ex1.function;
 class Functions_GUITest {
 	public static void main(String[] a) {
 		Functions_GUI data = FunctionsFactory();
-		int w=1000, h=600, res=10;
+		int w=1000, h=600, res=200;
 		Range rx = new Range(-10,10);
 		Range ry = new Range(-5,15);
 			data.drawFunctions(w,h,rx,ry,res);
